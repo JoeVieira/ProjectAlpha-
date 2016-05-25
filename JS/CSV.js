@@ -32,31 +32,35 @@ undefined
 
 */
 class CSVSearch {
-    compile_csv_search (csvString) {
-        let lines = csvString.split("\n");
-        this.fields = {};
-        this.fields = lines.map((line) => {
-            if (line.length > 0) {
-                let splitLine = line.split(",");
-                let object = {};
-                object.ip = splitLine[0];
-                object.name = splitLine[1];
-                object.desc = splitLine[2];
+  constructor () {
+    this.fields = {};
+    this.fieldsLength = 0;
+  }
 
-                return object;
-            }
-        });
+  compile_csv_search (csvString) {
+    let lines = csvString.split("\n");
+    this.fields = lines.map((line) => {
+      if (line.length > 0) {
+        let values = line.split(",");
+        let object = {};
+        object.ip = values[0];
+        object.name = values[1];
+        object.desc = values[2];
 
-        this.fieldsLength = this.fields.length;
+        return object;
+      }
+    });
+
+    this.fieldsLength = this.fields.length;
+  }
+
+  csv_by_name (key) {
+    for (let i = 0; i <= this.fieldsLength; i++) {
+      if (this.fields[i] && this.fields[i].name && this.fields[i].name === key) {
+        return this.fields[i]; 
+      }
     }
-
-    csv_by_name (key) {
-        for (let i = 0; i <= this.fieldsLength; i++) {
-            if (this.fields[i] && this.fields[i].name && this.fields[i].name === key) {
-                return this.fields[i]; 
-            }
-        }
-    }
+  }
 }
 
 var csvSearch = new CSVSearch();
