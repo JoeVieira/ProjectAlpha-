@@ -32,6 +32,23 @@ undefined
 
 */
 
+compile_csv_search = function(csvString, key) {
+  var searchMap = {};
+  var csvs = csvString.split("\n");
+  csvs.pop();
+  var headers = csvs.shift().split(",");
+  for (var j = 0; j < csvs.length; j++) {
+    var values = csvs[j].split(","), result = {};
+    for (var i = 0; i < values.length; i++) {
+      result[headers[i]] = values[i];
+    }
+    searchMap[result[key]] = result;
+  }
+  return function(searchKey) {
+    return searchMap[searchKey];
+  }
+}
+
 var csv_by_name = compile_csv_search(
     "ip,name,desc\n"+
     "10.49.1.4,server1,Main Server\n"+
