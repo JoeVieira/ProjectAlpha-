@@ -35,15 +35,17 @@ Example output:
 
 function PriorityQueue(){
 	this.queue = [];
+	this.sorted = false;
 }
 
 PriorityQueue.prototype.enq = function(data, priority){
 	this.queue.push({ data: data, priority: priority});
-	this.sort();
+	this.sorted = false;
 }
 
 PriorityQueue.prototype.sort = function(){
 	this.queue.sort(this.sortCompare);
+	this.sorted = true;
 }
 
 PriorityQueue.prototype.sortCompare = function(a, b){
@@ -57,6 +59,9 @@ PriorityQueue.prototype.sortCompare = function(a, b){
 }
 
 PriorityQueue.prototype.deq = function(){
+	if(!this.sorted){
+		this.sort();
+	}
 	var obj = this.queue.pop();
 	return obj.data;
 }
