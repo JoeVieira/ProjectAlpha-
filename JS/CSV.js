@@ -32,6 +32,66 @@ undefined
 
 */
 
+function CSVDB() {
+    var args = Array.prototype.slice.call(arguments);
+        this.rowDelim = ",";
+        this.csv = args[0].split("\n");
+        this.header = this.csv.slice(0,1)[0].split(this.rowDelim);
+        this.primary = args.slice(args.length - 1);
+        this.data = this.csv.slice(1, this.csv.length - 1);
+        this.db = [];
+}
+
+CSVDB.prototype.process = function(){
+    this.processCSV(this.data, this.header);
+};
+
+CSVDB.prototype.processCSV = function(data, header){
+    for(var i = 0, len = data.length; i < len; i++){
+        var row = data[i].split(this.rowDelim),
+            obj = {};
+        for(var j = 0, length = row.length; j < length; j++){
+            obj[header[j]] = row[j];
+        }
+        this.db.push(obj);
+    }
+};
+
+CSVDB.prototype.find = function(value){
+    for(var i = 0, len = this.db.length; i < len; i++){
+        var record = this.db[i];
+        for(var key in record){
+            if(record.hasOwnProperty(key)){
+                if(record[key] === value){
+                    return record;
+                }
+            }
+        }
+    }
+};
+
+CSVDB.prototype.findByProperty = function(value, property){
+    for(var i = 0, len = this.db.length; i < len; i++){
+        var record = this.db[i];
+        if(record[property] === value){
+            return record;
+        }
+    }
+};
+
+CSVDB.prototype.findByPrimary = function(value){
+    return this.findByProperty(value, this.primary);
+}
+
+function compile_csv_search(data, primary){
+    var csv = new CSVDB(data, primary);
+    csv.process();
+    return function(value){
+        return csv.findByPrimary(value);
+    }
+}
+
+
 var csv_by_name = compile_csv_search(
     "ip,name,desc\n"+
     "10.49.1.4,server1,Main Server\n"+
