@@ -24,9 +24,20 @@ foreach($inputArray as $input) {
 }
 
 function calculateRoot($number) {
-	/*
-		Calculate the number here
-	*/
+	if ($number < 10) {
+		return $number;
+	}
+	$digits = [];
+	while($number >= 10) {
+		$digits[] = $number % 10;
+		$number = (int) $number / 10;
+	}
+	$digits[] = (int) $number;
+	$next = 1;
+	foreach($digits as $digit) {
+		$next = $next * $digit;
+	}
+	return calculateRoot($next);
 }
 
 foreach($printArray as $result) {

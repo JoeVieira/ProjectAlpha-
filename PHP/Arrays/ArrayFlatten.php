@@ -18,9 +18,20 @@
  */
 
 function flattenArray($array) {
+	return implode(',', flatten($array));
+}
 
+function flatten($array) {
+	$flattened = [];
+	foreach($array as $elem) {
+		if (is_array($elem)) {
+			$flattened = array_merge($flattened, flatten($elem));
+		} else {
+			$flattened[] = $elem;
+		}
+	}
+	return $flattened;
 }
 
 $array = [1,2,3,[4,5,6],[7,[8,9]]];
-
 print flattenArray($array);
