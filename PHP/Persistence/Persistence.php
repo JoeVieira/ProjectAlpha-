@@ -24,10 +24,21 @@ foreach($inputArray as $input) {
 }
 
 function calculateRoot($number) {
-	/*
-		Calculate the number here
-	*/
+    $digRoot = 0;
+    while($number>10)
+    {
+        $val = str_split($number);
+        $tempNum = 1;
+        foreach($val as $key => $value)
+        {
+            $tempNum = $tempNum * (int)$value;
+        }  
+        $number = $tempNum;
+    }
+    $digRoot = $number;
+    return $digRoot;
 }
+
 
 foreach($printArray as $result) {
 	echo "The multiplicative digital root of ".$result['input']." is ".$result['result'].".".PHP_EOL;
