@@ -18,7 +18,21 @@
  */
 
 function flattenArray($array) {
-
+    $stackFlattened = array(); 
+    $stackFlattened = array_values($array); 
+    while($stackFlattened) 
+    {
+        $val = array_shift($stackFlattened);
+        if (is_array($val)) 
+        {
+            $stackFlattened = array_merge(array_values($val), $stackFlattened);
+        }
+        else 
+        {
+           $flatVersion[] = $val;
+        }
+    }
+    return implode(",",$flat);
 }
 
 $array = [1,2,3,[4,5,6],[7,[8,9]]];
