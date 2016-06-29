@@ -24,9 +24,16 @@ foreach($inputArray as $input) {
 }
 
 function calculateRoot($number) {
-	/*
-		Calculate the number here
-	*/
+	$result = null;
+	$numArray = str_split($number);
+	$product = array_product($numArray);
+	if ($product < 10) {
+		return $product;
+	}
+	else {
+		$result = calculateRoot($product); 
+	}
+	return $result;
 }
 
 foreach($printArray as $result) {
