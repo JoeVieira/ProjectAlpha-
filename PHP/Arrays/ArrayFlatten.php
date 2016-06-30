@@ -17,8 +17,20 @@
  *
  */
 
-function flattenArray($array) {
+function flattenArray($array)
+{
+    $result = [];
 
+    foreach ($array as $key => $value) {
+        if (is_array($value)) {
+            $result[] = flattenArray($value);
+            continue;
+        }
+
+        $result[$key] = $value;
+    }
+
+    return implode(',', $result);
 }
 
 $array = [1,2,3,[4,5,6],[7,[8,9]]];

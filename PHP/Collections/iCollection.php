@@ -49,7 +49,7 @@ interface Collection extends Iterator, Countable {
 	 * @return int
 	 */
 	public function count();
-	
+
 	/**
 	 * Empty the collection
 	 *
@@ -82,7 +82,7 @@ interface SortedCollection extends Collection {
 	 * @return void
 	 */
 	public function setSort($sort = SortedCollection::SORT_ASC);
-	
+
 	/**
 	 * build a sorted collection from a non-sorted one of a compatabile type
 	 *
@@ -91,5 +91,4 @@ interface SortedCollection extends Collection {
 	 * @return SortedCollection
 	 */
 	public static function fromUnsorted(Collection $collection, $sort);
-
 }
