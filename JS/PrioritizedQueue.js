@@ -26,8 +26,50 @@ Example Usage:
 
  var data = queue.deq();
  console.log(data);
-    
+
 Example output:
  {thing: "value2"}
 */
 
+function PriorityQueue() {
+    this.queue = [];
+    this.enq = function(value, priority) {
+        this.queue.push([value, priority]);
+    };
+    this.deq = function() {
+        var itemIdx = 0;
+        var highPriority = this.queue[0][1];
+
+        for (var idx = 0; idx < this.queue.length; idx++) {
+            if (this.queue[idx][1] < highPriority) {
+                itemIdx = idx;
+                highPriority = this.queue[idx][1];
+            }
+        }
+
+        this.queue.splice(itemIdx, 1);
+    };
+    this.print = function() {
+        var result = this.queue.map(function(item) {
+            return item[0];
+        });
+
+        console.log(result);
+    };
+}
+
+var queue = new PriorityQueue();
+var dataObjectOne = { thing: "value" };
+var priorityOne = 1;
+var dataObjectTwo = { thing: "value2" };
+var priorityTwo = 2;
+var dataObjectThree = { thing: "value3" };
+var priorityThree = 3;
+
+queue.enq(dataObjectOne, priorityOne);
+queue.enq(dataObjectTwo, priorityTwo);
+queue.enq(dataObjectThree, priorityThree);
+
+queue.deq();
+
+queue.print();
