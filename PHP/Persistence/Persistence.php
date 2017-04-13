@@ -24,9 +24,16 @@ foreach($inputArray as $input) {
 }
 
 function calculateRoot($number) {
-	/*
-		Calculate the number here
-	*/
+  if (strlen($number) === 1) {
+    $multiplicative_digital_root = $number;
+  } else {
+    $product = 1;
+    foreach (str_split($number) as $single_digit) {
+      $product = $product * $single_digit;
+    }
+    $multiplicative_digital_root = calculateRoot($product);
+  }
+  return $multiplicative_digital_root;
 }
 
 foreach($printArray as $result) {

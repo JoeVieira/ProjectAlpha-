@@ -2,11 +2,11 @@
 
 If you were to multiply all the digits of a number together, you could repeat the operation with the product until you obtained a single digit number. For example, with the number 814:
 
-8 * 1 * 4 = 24
+8 * 1 * 4 = 32
 
-2 * 4 = 8
+3 * 2 = 6
 
-The number of times you have to repeat the operation until you receive a single digit number is called multiplicative persistence. The single digit product of the digits is called the multiplicative digital root. In the case of 814, the multiplicative persistence is 2 and the multiplicative digital root is 8.
+The number of times you have to repeat the operation until you receive a single digit number is called multiplicative persistence. The single digit product of the digits is called the multiplicative digital root. In the case of 814, the multiplicative persistence is 2 and the multiplicative digital root is 6.
 ***
 35 -> 15 -> 5
 
