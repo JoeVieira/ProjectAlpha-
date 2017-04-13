@@ -32,11 +32,28 @@ undefined
 
 */
 
+function compile_csv_search(csv, name) {
+  return function(name) {
+    const rows = csv.split('\n'), array = [];
+    let field_names = rows[0].split(','), found_row;
+    for (let row = 1; row < rows.length; row++) {
+      const object = {};
+      let current_row = rows[row].split(',');
+      for (let field = 0; field < field_names.length; field++) {
+        object[field_names[field]] = current_row[field];
+      }
+      array.push(object);
+      found_row = array.find((data) => { return data.name === name });
+    }
+    return JSON.stringify(found_row);
+  }
+}
+
 var csv_by_name = compile_csv_search(
-    "ip,name,desc\n"+
-    "10.49.1.4,server1,Main Server\n"+
-    "10.52.5.1,server2,Backup Server\n",
-    "name");
+  "ip,name,desc\n"+
+  "10.49.1.4,server1,Main Server\n"+
+  "10.52.5.1,server2,Backup Server\n",
+  "name");
 
 console.log(csv_by_name("server2"));
 console.log(csv_by_name("server9"));
