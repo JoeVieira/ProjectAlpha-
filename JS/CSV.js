@@ -32,6 +32,26 @@ undefined
 
 */
 
+function compile_csv_search(theCsvFile, keyword) { 
+    this.csvArray = {};
+    var linesArray = theCsvFile.split('\n');
+    var headers = linesArray[0].split(',');
+    for (var key in linesArray) {
+        var i, row = {};
+        var thisRowArray = linesArray[key].split(',');
+        for(i =0; i < headers.length; i++) {
+           row[headers[i]] = thisRowArray[i];
+        }
+        this.csvArray[row[keyword]] = row;
+    }
+   var searcher = function (columnName) {
+       return JSON.stringify(this.csvArray[columnName]);      
+       }
+   searcher.csvArray = this.csvArray;
+   return searcher;
+}
+
+
 var csv_by_name = compile_csv_search(
     "ip,name,desc\n"+
     "10.49.1.4,server1,Main Server\n"+
