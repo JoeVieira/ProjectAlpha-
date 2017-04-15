@@ -24,9 +24,15 @@ foreach($inputArray as $input) {
 }
 
 function calculateRoot($number) {
-	/*
-		Calculate the number here
-	*/
+  $result = 1;
+  $digitsArray = str_split(strval($number));
+  foreach($digitsArray as $digit) {
+    $result *= $digit;
+  }
+  if ($result > 9) {
+    $result = calculateRoot($result);	  
+  }
+  return $result;
 }
 
 foreach($printArray as $result) {
