@@ -18,7 +18,15 @@
  */
 
 function flattenArray($array) {
-
+  $returnArray = array();
+  foreach ($array as $piece) { 
+    if (is_array($piece)){
+      $returnArray[] = flattenArray($piece);
+    } else {
+      $returnArray[] = $piece;
+    }
+  }
+  return (implode(',',$returnArray));
 }
 
 $array = [1,2,3,[4,5,6],[7,[8,9]]];
