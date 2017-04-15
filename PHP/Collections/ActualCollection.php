@@ -11,6 +11,7 @@ require_once 'iCollection.php';
 class ActualCollection implements Collection
 {
   public $collectionArray = array();
+  private $position = 0;
   
   public function addItem($item,$key=false,$callback = null)
   {
@@ -32,23 +33,23 @@ class ActualCollection implements Collection
     }
   }
 
-	public function getItem($key);
+  public function getItem($key)
   {
     if($this->hasKey($key)){
-      return this->collectionArray[$key];
+      return ($this->collectionArray[$key]);
     } else {
       return false; 
     }
   }
   
-	public function length(){
+  public function length(){
     return(count($this->collectionArray)); 
   }
-	public function count(){
+  public function count(){
     return($this->length()); 
   }
 	
-	public function clear()
+  public function clear()
   {
     $this->collectionArray = array();
   }
@@ -58,9 +59,36 @@ class ActualCollection implements Collection
     return( isset($this->collectionArray[$key]));
   }
   
-	public function keys()
+  public function keys()
   {
     return array_keys($this->collectionArray); 
+  }
+	
+  public function current()
+  {
+    $keys = $this->keys();
+    return $this->collectionArray[$keys[$this->position]];
+  }
+  
+  public function key()
+  {
+    $keys = $this->keys();
+    return $keys[$this->position];  
+  }
+	
+  public function next()
+  {
+    ++$this->position;	  
+  }
+  public function rewind() {
+    $this->position = 0;
+  }
+  public function valid() {
+    $keys = $this->keys();
+    if (!isset($keys[$this->position])) {
+        return false;
+    }
+    return isset($this->collectionArray[$keys[$this->position]]);
   }
 }
 
@@ -68,34 +96,31 @@ class ActualSortedCollection extends ActualCollection implements SortedCollectio
 
   private $sortOrder;
 
-	public function setSort($sort = SortedCollection::SORT_ASC)
+  public function setSort($sort = SortedCollection::SORT_ASC)
   {
     $this->sortOrder = $sort; 
   }
-	
-	/**
-	 * build a sorted collection from a non-sorted one of a compatabile type
-	 *
-	 * @param Collection $collection
-	 * @param int $sort
-	 * @return SortedCollection
-	 */
-	public static function fromUnsorted(Collection $collection, $sort)
+
+  public function addItem($item,$key=false,$callback = null)
   {
-    if ($collection->count() < 2) {
-       return ($collection);
+    parent::addItem($item,$key);
+    if ($this->count() > 1) {
+      if ($this->sortOrder == 1) {
+        krsort($this->collectionArray);
+      } else {
+        ksort($this->collectionArray);
+      }
     }
-    
-    $keysArray = $collection->keys();  
-    if ($sortOrder == 1) {
-      rsort($keysArray);
-    } else {
-      sort($keysArray);
+  }
+
+  public static function fromUnsorted(Collection $collection, $sort)
+  {
+    $sortedCollection = new ActualSortedCollection();
+    $sortedCollection->setSort($sort);
+    foreach ($collection->keys() as $key) {
+      $sortedCollection->addItem( $collection->getItem($key), $key);
     }
-    foreach ($keysArray as $key) {
-      $this->addItem( $collection->getItem($key), $key);
-    }
-    return ($this);
+    return ($sortedCollection);
     
     
   }
