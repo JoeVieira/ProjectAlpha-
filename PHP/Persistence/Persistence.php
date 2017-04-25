@@ -27,6 +27,21 @@ function calculateRoot($number) {
 	/*
 		Calculate the number here
 	*/
+  $total = 0;
+  $num_array = str_split($number);
+
+  if (count($num_array) == 1) {
+  	return $number;
+  } else {
+  	for ($i = 0; $i < count($num_array); $i++) {
+  		if ($i == 0) {
+  			$total = $num_array[$i];
+  		} else {
+  			$total = $total * $num_array[$i];
+  		}
+  	}
+  	return calculateRoot($total);
+  }
 }
 
 foreach($printArray as $result) {
