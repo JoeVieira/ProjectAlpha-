@@ -31,3 +31,75 @@ Example output:
  {thing: "value2"}
 */
 
+// PriorityQueue implementation and API based off of Algorithms 4th Edition by Sedgewick & Wayne
+// http://algs4.cs.princeton.edu/24pq/
+class Node {
+
+	constructor(data, priority) {
+		this.data = data;
+		this.priority = priority;
+	}
+
+}
+class PriorityQueue {
+
+	constructor() {
+		this.root = new Node(null, null);
+	}
+
+  // Insert an element into the PQ
+	enqueue(element, priority) {
+		if (this.root.priority == null) {
+			this.root = new Node(element, priority);
+		} else {
+      
+		}
+	}
+
+  // Remove the smallest element from the PQ
+	dequeue() {
+
+	}
+
+  // Return the largest element
+	max() {
+		var max = 0;
+    for (var i = 0; i < this.array.length; i++) {
+    	if (this.array[i] != null && this.array[i] > max) {
+    		max = this.array[i];
+    	}
+    }
+    return max;
+	}
+
+  // Return and remove the largest element
+	delMax() {
+		largest_elt = this.max();
+		largest_elt_index = this.array.indexOf(largest_elt);
+		this.array[largest_elt_index] = null;
+
+	}
+
+  // Is the PQ empty?
+	isEmpty() {
+    return this.array.every(x => x == null);
+	}
+
+	// Number of elements in PQ
+	size() {
+    return this.array.length;
+	}
+
+	isNull(element) {
+		return element == null;
+	}
+
+}
+
+pq = new PriorityQueue;
+console.log(pq.isEmpty());
+pq.enqueue(5, 8);
+console.log(pq.isEmpty());
+console.log(pq.max());
+console.log(pq.size());
+
