@@ -31,14 +31,15 @@ function flattenArray($array) {
       $output_array[] = $element;
     }
 	}
-  
+
   return $output_array;
 }
 
-$array_original = [1,2,3,[4,5,6],[7,[8,9]]];
-$array_1        = [1,2,3,[4,[5]],[6,[7,[8]]]];
-
-$test_cases = [$array_original, $array_1];
+$test_cases = array(
+  [1,2,3,[4,5,6],[7,[8,9]]],
+  [1,2,3,[4,[5]],[6,[7,[8]]]],
+  [1,[2,3,4,[5], [6,7, 8, 9]]]
+);
 
 foreach($test_cases as $test) {
   print_r(flattenArray($test));
