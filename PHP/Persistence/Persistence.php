@@ -24,9 +24,6 @@ foreach($inputArray as $input) {
 }
 
 function calculateRoot($number) {
-	/*
-		Calculate the number here
-	*/
   $total = 0;
   $num_array = str_split($number);
 

@@ -10,16 +10,21 @@ require_once 'iCollection.php';
 
 class ActualCollection implements Collection {
 
-  private $collection = array();
-  private $position = 0;
-  private $array = array();
+  public $position;
+  public $collection;
+  public $count;
 
-  public function rewind() {
+  public function __construct() {
     $this->position = 0;
+    $this->collection = array();
+  }
+  
+  public function count() {
+    return $this->count;
   }
 
   public function current() {
-    return $this->array[$this->position];
+    return $this->collection[$this->position];
   }
 
   public function key() {
@@ -27,73 +32,92 @@ class ActualCollection implements Collection {
   }
 
   public function next() {
-    ++$this->position;
+    $this->position++;
+  }
+
+  public function rewind() {
+    $this->position = 0;
   }
 
   public function valid() {
-    return isset($this->array[$this->position]);
+    return isset($this->collection[$this->position]);
   }
-
-  public function addItem($item, $key=false, $callback = null) {
-    if (!is_null($callback)) {
-      call_user_func($callback);
-    }
+  
+  public function addItem($item,$key=false,$callback = null) {
     if ($key == false) {
-      $this->collection[] = $item;
+      $index = array_search($item, $this->collection);
+
+      if ($index == "") {
+        $this->collection[] = $item;
+        $this->count++;
+        print("item has been added\n");
+        return true;
+      } else {
+        return false;
+      }
+
     } else {
-      $this->collection[$key] = $item;
+
+      if (isset($this->collection[$key])) {
+        return false;
+
+      } else {
+        $this->collection[$key] = $item;
+        $this->count++;
+        print("item has been added\n");
+        return true;
+      }      
     }
+
   }
 
-  public function delItem($key, $callback = null) {
-    if (!is_null($callback)) {
-      call_user_func($callback);
+  public function delItem($key,$callback = null) {
+    if (isset($this->collection[$key])) {
+      unset($this->collection[$key]);
+      $this->count--;
+      print("item has been deleted\n");
+      return true;
+    } else {
+      return false;
     }
-  	unset($this->collection[$key]);
   }
 
   public function getItem($key) {
-  	return $this->collection[$key];
+    return $this->collection[$key];
   }
 
   public function length() {
-  	return count($this->collection);
-  }
-
-  public function count() {
-  	return count($this->collection);
+    return $this->count;
   }
 
   public function clear() {
-  	$this->collection = array();
+    $this->collection = array();
+    $this->count = 0;
   }
 
   public function hasKey($key) {
-  	return isset($this->collection[$key]);
+    return array_key_exists($key, $this->collection);
   }
 
   public function keys() {
-  	return array_keys($this->collection);
+    return array_keys($this->collection);
   }
-
 
 }
 
 class ActualSortedCollection extends ActualCollection implements SortedCollection {
 
+  private $sort_order = null;
+
 	public function setSort($sort = SortedCollection::SORT_ASC) {
-		if ($sort == SORT_ASC) {
-			asort($this->collection);
-		} elseif ($sort == SORT_DESC) {
-			arsort($this->collection);
-		}
+		$this->sort_order = $sort;
 	}
 
   public static function fromUnsorted(Collection $collection, $sort) {
     if ($sort == SortedCollection::SORT_ASC) {
-      return asort($collection);
+      return asort($collection->keys());
     } elseif ($sort == SortedCollection::SORT_DESC) {
-      return arsort($collection);
+      return arsort($collection->keys());
     }
   }
 
