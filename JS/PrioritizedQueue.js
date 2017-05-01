@@ -31,75 +31,76 @@ Example output:
  {thing: "value2"}
 */
 
-// PriorityQueue implementation and API based off of Algorithms 4th Edition by Sedgewick & Wayne
-// http://algs4.cs.princeton.edu/24pq/
-class Node {
+// Assumptions made:
+// - priority is always an int
+// - dequeue will always dequeue the object with the highest priority
 
-	constructor(data, priority) {
-		this.data = data;
-		this.priority = priority;
-	}
-
-}
 class PriorityQueue {
 
 	constructor() {
-		this.root = new Node(null, null);
+		this.dict = {};
 	}
 
-  // Insert an element into the PQ
-	enqueue(element, priority) {
-		if (this.root.priority == null) {
-			this.root = new Node(element, priority);
+	enq(object, priority) {
+		this.dict[priority] = object;
+	}
+
+	deq() {
+		if (Object.keys.length === 0) {
+			return null;
+
 		} else {
-      
+			var keys = Object.keys(this.dict);
+			var max = keys[keys.length - 1];
+			var return_val = this.dict[max];
+			delete(this.dict[max]);
+			return return_val;
 		}
-	}
-
-  // Remove the smallest element from the PQ
-	dequeue() {
-
-	}
-
-  // Return the largest element
-	max() {
-		var max = 0;
-    for (var i = 0; i < this.array.length; i++) {
-    	if (this.array[i] != null && this.array[i] > max) {
-    		max = this.array[i];
-    	}
-    }
-    return max;
-	}
-
-  // Return and remove the largest element
-	delMax() {
-		largest_elt = this.max();
-		largest_elt_index = this.array.indexOf(largest_elt);
-		this.array[largest_elt_index] = null;
-
-	}
-
-  // Is the PQ empty?
-	isEmpty() {
-    return this.array.every(x => x == null);
-	}
-
-	// Number of elements in PQ
-	size() {
-    return this.array.length;
-	}
-
-	isNull(element) {
-		return element == null;
 	}
 
 }
 
-pq = new PriorityQueue;
-console.log(pq.isEmpty());
-pq.enqueue(5, 8);
-console.log(pq.isEmpty());
-console.log(pq.max());
-console.log(pq.size());
+/*
+queue = new PriorityQueue();
+var dataObjectOne = {thing: "value"};
+var priorityOne = 1;
+var dataObjectTwo = {thing: "value2"};
+var priorityTwo = 2;
+queue.enq(dataObjectOne,priorityOne);
+queue.enq(dataObjectTwo,priorityTwo);
+console.log("Enqueueing objects");
+console.log(queue);
+console.log("\n");
 
+console.log("Dequeueing an object");
+var data = queue.deq();
+console.log(data);
+console.log(queue);
+console.log("\n");
+
+console.log("Enqueueing a bunch of object now");
+queue.enq({thing: "value5"}, 5);
+queue.enq({thing: "value17"}, 17);
+queue.enq({thing: "value2"}, 2);
+console.log(queue);
+console.log("\n");
+
+console.log("Dequeueing all objects added");
+console.log("Removing...");
+console.log(queue.deq());
+console.log("Current queue");
+console.log(queue);
+console.log("\n");
+
+console.log("Removing...");
+console.log(queue.deq());
+console.log("Current queue");
+console.log(queue);
+console.log("\n");
+
+console.log("Removing...");
+console.log(queue.deq());
+console.log("Current queue");
+console.log(queue);
+console.log("\n");
+*/
