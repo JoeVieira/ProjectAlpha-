@@ -17,10 +17,30 @@
  *
  */
 
+// This function assumes that the given array will only 
+// contain two variable types: array and integer
+
 function flattenArray($array) {
 
+	$output_array = array();
+
+	foreach($array as $element) {
+    if (is_array($element)) {
+      $output_array = array_merge($output_array, flattenArray($element));
+    } else {
+      $output_array[] = $element;
+    }
+	}
+
+  return $output_array;
 }
 
-$array = [1,2,3,[4,5,6],[7,[8,9]]];
+$test_cases = array(
+  [1,2,3,[4,5,6],[7,[8,9]]],
+  [1,2,3,[4,[5]],[6,[7,[8]]]],
+  [1,[2,3,4,[5], [6,7, 8, 9]]]
+);
 
-print flattenArray($array);
+foreach($test_cases as $test) {
+  print_r(flattenArray($test));
+}

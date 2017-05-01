@@ -32,6 +32,20 @@ undefined
 
 */
 
+var dict = {};
+
+function compile_csv_search(csv) {
+  var lines = csv.split("\n");
+
+  for (var i = 0; i < lines.length; i++) {
+    var line_array = lines[i].split(",");
+    if (line_array[0]) {
+      dict[line_array[1]] = {"ip": line_array[0], "name": line_array[1], "desc": line_array[2]};
+    }
+  }
+  return function(name) { return dict[name] };
+}
+
 var csv_by_name = compile_csv_search(
     "ip,name,desc\n"+
     "10.49.1.4,server1,Main Server\n"+
